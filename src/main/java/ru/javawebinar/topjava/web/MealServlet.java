@@ -51,6 +51,7 @@ public class MealServlet extends HttpServlet {
         LOG.info(userMeal.isNew() ? "Create {}" : "Update {}", userMeal);
         repository.save(userMeal);
         resp.sendRedirect("meals");
+
     }
 
     @Override
@@ -80,7 +81,6 @@ public class MealServlet extends HttpServlet {
         String paramId = Objects.requireNonNull(request.getParameter("id"));
         return Integer.valueOf(paramId);
     }
-
 }
 
 

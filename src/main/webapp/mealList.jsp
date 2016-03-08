@@ -5,7 +5,7 @@
 
 <html>
 <head>
-    <title>Title</title>
+    <title>Meal list</title>
     <style>
         .normal {color: green;}
         .exceeded {color: red}

@@ -29,7 +29,7 @@
         <h2><a href="">Home</a></h2>
         <h3>Edit meal</h3>
         <hr>
-        <jsp:useBean id="meal" type="ru.javawebinar.topjava.model.UserMeal"></jsp:useBean>
+        <jsp:useBean id="meal" type="ru.javawebinar.topjava.model.UserMeal" scope="request"/>
         <form action="meals" method="post">
             <input type="hidden" name="id" value="${meal.id}">
             <dl>
@@ -42,7 +42,7 @@
             </dl>
             <dl>
                 <dt>Calories:</dt>
-                <dd><input type="number" name="calories" value="${meal.calories}">/dd>
+                <dd><input type="number" name="calories" value="${meal.calories}"></dd>
             </dl>
             <button type="submit">Save</button>
             <button onclick="window.history.back()">Cancel</button>
