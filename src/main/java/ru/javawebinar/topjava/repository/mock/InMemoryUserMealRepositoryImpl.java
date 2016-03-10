@@ -1,6 +1,7 @@
-package ru.javawebinar.topjava.repository;
+package ru.javawebinar.topjava.repository.mock;
 
 import ru.javawebinar.topjava.model.UserMeal;
+import ru.javawebinar.topjava.repository.UserMealRepository;
 import ru.javawebinar.topjava.util.UserMealsUtil;
 
 import java.util.Collection;
@@ -9,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
-public class InMemoryUserMealRepositoryImpl implements UserMealRepository{
+public class InMemoryUserMealRepositoryImpl implements UserMealRepository {
 
     private Map<Integer, UserMeal> repository = new ConcurrentHashMap<>();
 
