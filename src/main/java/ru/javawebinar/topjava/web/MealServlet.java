@@ -37,10 +37,11 @@ public class MealServlet extends HttpServlet {
                 LocalDateTime.parse(req.getParameter("dateTime")),
                 req.getParameter("description"),
                 Integer.valueOf(req.getParameter("calories")));
+
         LOG.info(userMeal.isNew() ? "Create {}" : "Update {}", userMeal);
+
         repository.save(userMeal);
         resp.sendRedirect("meals");
-
     }
 
     @Override
