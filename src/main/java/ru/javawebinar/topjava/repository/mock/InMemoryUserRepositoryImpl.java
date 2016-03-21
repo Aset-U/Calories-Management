@@ -5,6 +5,7 @@ import ru.javawebinar.topjava.LoggerWrapper;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
+import ru.javawebinar.topjava.util.UserMealsUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,6 +14,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.jar.Pack200;
+import java.util.stream.Collectors;
 
 /**
  * Created by Asset on 10.03.2016.
@@ -25,9 +27,7 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
 
     private AtomicInteger counter = new AtomicInteger(0);
     {
-        save(new User(1, "Batman", "batman@enterprise.com", "123Hyee", Role.ROLE_ADMIN));
-        save(new User(2, "Badboy", "badboy@enterprise.com", "xxxA09f", Role.ROLE_USER));
-        save(new User(3, "Spiderman", "spiderman@enterprise.com", "really01", Role.ROLE_USER));
+        UserMealsUtil.USER_LIST.forEach(this::save);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
     @Override
     public boolean delete(int id) {
         LOG.info("delete " + id);
-        return repository.remove(id) !=null? true : false;
+        return repository.remove(id) != null;
     }
 
     @Override
@@ -69,6 +69,7 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
         LOG.info("getAll");
         List<User> users = new ArrayList<>();
         repository.forEach((integer, user) -> users.add(user));
-        return Collections.emptyList();
+
+        return users.stream().sorted((u1, u2) -> u1.getName().compareTo(u2.getName())).collect(Collectors.toList());
     }
 }
