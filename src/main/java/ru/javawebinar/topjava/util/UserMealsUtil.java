@@ -118,7 +118,5 @@ public class UserMealsUtil {
         }
 
         return mealWithExceeds;
-
-
     }
 }

@@ -17,45 +17,45 @@ public class InMemoryUserMealRepositoryImpl implements UserMealRepository {
 
     public static final Comparator<UserMeal> USER_MEAL_COMPARATOR = (um1, um2) -> um2.getDateTime().compareTo(um1.getDateTime());
 
-    private Map<User, Map<Integer, UserMeal>> repository = new ConcurrentHashMap<>();
+    private Map<Integer, Map<Integer, UserMeal>> repository = new ConcurrentHashMap<>();
 
     private AtomicInteger counter = new AtomicInteger(0);
 
     {
         UserMealsUtil.USER_LIST.forEach(user -> UserMealsUtil.MEAL_LIST.forEach(
-                userMeal -> save(user, userMeal)
+                userMeal -> save(user.getId(), userMeal)
         ));
     }
 
 
-
-    public UserMeal save(User user,UserMeal userMeal) {
+    @Override
+    public UserMeal save(Integer userId,UserMeal userMeal) {
         if (userMeal.isNew()) {
             userMeal.setId(counter.incrementAndGet());
         }
         Map<Integer, UserMeal> mealMap = new ConcurrentHashMap<>();
 
         mealMap.put(userMeal.getId(), userMeal);
-        repository.put(user, mealMap);
+        repository.put(userId, mealMap);
 
         return userMeal;
     }
 
     @Override
-    public boolean delete(User user, int id) {
-        Map<Integer, UserMeal> userMeals = repository.get(user);
+    public boolean delete(Integer userId, int id) {
+        Map<Integer, UserMeal> userMeals = repository.get(userId);
         return userMeals != null && userMeals.remove(id) != null;
     }
 
     @Override
-    public UserMeal get(User user, int id) {
-        Map<Integer, UserMeal> userMeals = repository.get(user);
+    public UserMeal get(Integer userId, int id) {
+        Map<Integer, UserMeal> userMeals = repository.get(userId);
         return userMeals == null ? null : userMeals.get(id);
     }
 
     @Override
-    public Collection<UserMeal> getAll(User user) {
-        Map<Integer, UserMeal> userMeals = repository.get(user);
+    public Collection<UserMeal> getAll(Integer userId) {
+        Map<Integer, UserMeal> userMeals = repository.get(userId);
         return userMeals == null ?
                 Collections.emptyList() :
                 userMeals.values().stream().sorted(USER_MEAL_COMPARATOR).collect(Collectors.toList());
