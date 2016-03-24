@@ -2,6 +2,7 @@ package ru.javawebinar.topjava.repository;
 
 import ru.javawebinar.topjava.model.UserMeal;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 public interface UserMealRepository {
@@ -13,4 +14,6 @@ public interface UserMealRepository {
     UserMeal get(Integer userId, int id);
 
     Collection<UserMeal> getAll(Integer userId);
+
+    Collection<UserMeal> getBetween(LocalDateTime startDate, LocalDateTime endDate, Integer userId);
 }

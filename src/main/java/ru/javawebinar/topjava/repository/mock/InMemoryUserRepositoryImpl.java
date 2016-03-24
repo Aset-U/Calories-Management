@@ -7,10 +7,7 @@ import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 import ru.javawebinar.topjava.util.UserMealsUtil;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.jar.Pack200;
@@ -24,8 +21,8 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
     private static final LoggerWrapper LOG = LoggerWrapper.get(InMemoryUserRepositoryImpl.class);
 
     private Map<Integer, User> repository = new ConcurrentHashMap<>();
-
     private AtomicInteger counter = new AtomicInteger(0);
+
     {
         UserMealsUtil.USER_LIST.forEach(this::save);
     }
@@ -33,11 +30,13 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
     @Override
     public User save(User user) {
         LOG.info("save " + user);
+        Objects.requireNonNull(user);
+
         if(user.isNew()){
             user.setId(counter.incrementAndGet());
         }
-        repository.put(user.getId(), user);
-        return user;
+
+        return repository.put(user.getId(), user);
     }
 
     @Override
@@ -55,21 +54,15 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
     @Override
     public User getByEmail(String email) {
         LOG.info("getByEmail " + email);
-        for (Map.Entry<Integer, User> pair : repository.entrySet()) {
-            User u = pair.getValue();
-            if (u.getEmail().equals(email)){
-                return u;
-            }
-        }
-        return null;
+        Objects.requireNonNull(email);
+
+        return repository.values().stream().filter(user -> email.equals(user.getEmail())).findFirst().orElse(null);
     }
 
     @Override
     public List<User> getAll() {
         LOG.info("getAll");
-        List<User> users = new ArrayList<>();
-        repository.forEach((integer, user) -> users.add(user));
-
-        return users.stream().sorted((u1, u2) -> u1.getName().compareTo(u2.getName())).collect(Collectors.toList());
+        return repository.values().stream().sorted((u1, u2) -> u1.getName().compareTo(u2.getName()))
+                .collect(Collectors.toList());
     }
 }

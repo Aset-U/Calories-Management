@@ -5,8 +5,10 @@ import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.repository.UserMealRepository;
+import ru.javawebinar.topjava.util.TimeUtil;
 import ru.javawebinar.topjava.util.UserMealsUtil;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -29,13 +31,21 @@ public class InMemoryUserMealRepositoryImpl implements UserMealRepository {
 
 
     @Override
-    public UserMeal save(Integer userId,UserMeal userMeal) {
+    public UserMeal save(Integer userId, UserMeal userMeal) {
+        Objects.requireNonNull(userMeal);
+
+        Integer mealId = userMeal.getId();
+
         if (userMeal.isNew()) {
-            userMeal.setId(counter.incrementAndGet());
+            mealId = counter.incrementAndGet();
+            userMeal.setId(mealId);
+        }else if (get(userId, mealId) == null){
+            return null;
         }
+
         Map<Integer, UserMeal> mealMap = new ConcurrentHashMap<>();
 
-        mealMap.put(userMeal.getId(), userMeal);
+        mealMap.put(mealId, userMeal);
         repository.put(userId, mealMap);
 
         return userMeal;
@@ -59,5 +69,14 @@ public class InMemoryUserMealRepositoryImpl implements UserMealRepository {
         return userMeals == null ?
                 Collections.emptyList() :
                 userMeals.values().stream().sorted(USER_MEAL_COMPARATOR).collect(Collectors.toList());
+    }
+
+    @Override
+    public Collection<UserMeal> getBetween(LocalDateTime startDate, LocalDateTime endDate, Integer userId) {
+        Objects.requireNonNull(startDate);
+        Objects.requireNonNull(endDate);
+        return getAll(userId).stream()
+                .filter(meal -> TimeUtil.isBetween(meal.getDateTime(), startDate, endDate))
+                .collect(Collectors.toList());
     }
 }

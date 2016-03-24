@@ -9,6 +9,7 @@ import java.util.List;
  * Created by Asset on 09.03.2016.
  */
 public interface UserService {
+
     User save(User user);
 
     void delete(int id) throws NotFoundException;
