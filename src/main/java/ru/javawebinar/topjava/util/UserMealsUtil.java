@@ -46,9 +46,6 @@ public class UserMealsUtil {
         return getFilteredMealsWithExceededByStream(mealList, LocalTime.MIN, LocalTime.MAX, caloriesPerDay);
     }
 
-    public static UserMealWithExceed createWithExceed(UserMeal meal, boolean exceeded) {
-        return new UserMealWithExceed(meal.getId(), meal.getDateTime(), meal.getDescription(), meal.getCalories(), exceeded);
-    }
 
     public static List<UserMealWithExceed>  getFilteredMealsWithExceededByStream
             (Collection<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
@@ -119,5 +116,9 @@ public class UserMealsUtil {
         }
 
         return mealWithExceeds;
+    }
+
+    public static UserMealWithExceed createWithExceed(UserMeal meal, boolean exceeded) {
+        return new UserMealWithExceed(meal.getId(), meal.getDateTime(), meal.getDescription(), meal.getCalories(), exceeded);
     }
 }
