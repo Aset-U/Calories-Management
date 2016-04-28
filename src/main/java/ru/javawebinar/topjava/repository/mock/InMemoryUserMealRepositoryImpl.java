@@ -31,7 +31,7 @@ public class InMemoryUserMealRepositoryImpl implements UserMealRepository {
 
 
     @Override
-    public UserMeal save(Integer userId, UserMeal userMeal) {
+    public UserMeal save(int userId, UserMeal userMeal) {
         Objects.requireNonNull(userMeal);
 
         Integer mealId = userMeal.getId();
@@ -43,28 +43,25 @@ public class InMemoryUserMealRepositoryImpl implements UserMealRepository {
             return null;
         }
 
-        Map<Integer, UserMeal> mealMap = new ConcurrentHashMap<>();
-
-        mealMap.put(mealId, userMeal);
-        repository.put(userId, mealMap);
-
+        Map<Integer, UserMeal> userMeals = repository.computeIfAbsent(userId, ConcurrentHashMap::new);
+        userMeals.put(mealId, userMeal);
         return userMeal;
     }
 
     @Override
-    public boolean delete(Integer userId, int id) {
+    public boolean delete(int userId, int id) {
         Map<Integer, UserMeal> userMeals = repository.get(userId);
         return userMeals != null && userMeals.remove(id) != null;
     }
 
     @Override
-    public UserMeal get(Integer userId, int id) {
+    public UserMeal get(int userId, int id) {
         Map<Integer, UserMeal> userMeals = repository.get(userId);
         return userMeals == null ? null : userMeals.get(id);
     }
 
     @Override
-    public Collection<UserMeal> getAll(Integer userId) {
+    public Collection<UserMeal> getAll(int userId) {
         Map<Integer, UserMeal> userMeals = repository.get(userId);
         return userMeals == null ?
                 Collections.emptyList() :
@@ -72,7 +69,7 @@ public class InMemoryUserMealRepositoryImpl implements UserMealRepository {
     }
 
     @Override
-    public Collection<UserMeal> getBetween(LocalDateTime startDate, LocalDateTime endDate, Integer userId) {
+    public Collection<UserMeal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
         Objects.requireNonNull(startDate);
         Objects.requireNonNull(endDate);
         return getAll(userId).stream()

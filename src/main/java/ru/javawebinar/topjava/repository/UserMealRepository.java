@@ -7,13 +7,13 @@ import java.util.Collection;
 
 public interface UserMealRepository {
 
-    UserMeal save(Integer userId, UserMeal userMeal);
+    UserMeal save(int userId, UserMeal userMeal);
 
-    boolean delete(Integer userId, int id);
+    boolean delete(int userId, int id);
 
-    UserMeal get(Integer userId, int id);
+    UserMeal get(int userId, int id);
 
-    Collection<UserMeal> getAll(Integer userId);
+    Collection<UserMeal> getAll(int userId);
 
-    Collection<UserMeal> getBetween(LocalDateTime startDate, LocalDateTime endDate, Integer userId);
+    Collection<UserMeal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId);
 }
