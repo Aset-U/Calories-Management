@@ -4,9 +4,7 @@ import ru.javawebinar.topjava.model.User;
 
 import java.util.List;
 
-/**
- * Created by Asset on 08.03.2016.
- */
+
 public interface UserRepository {
     User save(User user);
 

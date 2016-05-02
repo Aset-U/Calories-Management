@@ -4,6 +4,7 @@ package ru.javawebinar.topjava.model;
  * Created by Asset on 08.03.2016.
  */
 public class NamedEntity extends BaseEntity {
+
     protected String name;
 
     public NamedEntity() {

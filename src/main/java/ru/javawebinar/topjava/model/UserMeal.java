@@ -4,11 +4,11 @@ import java.time.LocalDateTime;
 
 public class UserMeal extends BaseEntity{
 
-    protected final LocalDateTime dateTime;
+    private final LocalDateTime dateTime;
 
-    protected final String description;
+    private final String description;
 
-    protected final int calories;
+    private final int calories;
 
     public UserMeal(Integer id, LocalDateTime dateTime, String description, int calories) {
         super(id);
@@ -33,8 +33,6 @@ public class UserMeal extends BaseEntity{
     public int getCalories() {
         return calories;
     }
-
-    public boolean isNew(){ return id == null; }
 
     @Override
     public String toString() {

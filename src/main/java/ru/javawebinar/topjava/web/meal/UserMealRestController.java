@@ -8,6 +8,7 @@ import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.service.UserMealServiceImpl;
 import ru.javawebinar.topjava.to.UserMealWithExceed;
+import ru.javawebinar.topjava.util.TimeUtil;
 import ru.javawebinar.topjava.util.UserMealsUtil;
 
 import java.time.LocalDate;
@@ -32,12 +33,14 @@ public class UserMealRestController {
     }
 
     public UserMeal create(UserMeal meal) {
+        meal.setId(null);
         int userId = LoggedUser.id();
         LOG.info("create meal {} for User {}", meal, userId);
         return service.save(userId, meal);
     }
 
-    public UserMeal update(UserMeal meal) {
+    public UserMeal update(UserMeal meal, int id) {
+        meal.setId(id);
         int userId = LoggedUser.id();
         LOG.info("update meal {} for User {}", meal, userId);
         return service.update(userId, meal);
@@ -55,11 +58,12 @@ public class UserMealRestController {
         return UserMealsUtil.getWithExceeded(service.getAll(userId), LoggedUser.getCaloriesPerDay());
     }
 
-    public List<UserMealWithExceed> getBetween(LocalDate startDate, LocalDate endDate,
-                                               LocalTime startTime, LocalTime endTime) {
+    public List<UserMealWithExceed> getBetween(LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime) {
         int userId = LoggedUser.id();
         LOG.info("getBetween dates {} - {} for time {} - {} for User", startDate, endDate, startTime, endTime, userId);
         return UserMealsUtil.getFilteredMealsWithExceededByStream(
-                service.getBetweenDates(startDate, endDate, userId), startTime, endTime, LoggedUser.getCaloriesPerDay());
+                service.getBetweenDates(
+                        startDate != null ? startDate : TimeUtil.MAX_DATE, endDate != null ? endDate : TimeUtil.MAX_DATE, userId),
+                        startTime != null ? startTime : LocalTime.MIN, endTime != null ? endTime : LocalTime.MAX, LoggedUser.getCaloriesPerDay());
     }
 }
