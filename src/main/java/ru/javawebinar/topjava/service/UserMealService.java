@@ -9,24 +9,22 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Collection;
 
-/**
- * Created by Asset on 10.03.2016.
- */
+
 public interface UserMealService {
 
-    UserMeal save(Integer userId, UserMeal userMeal);
+    UserMeal save(int userId, UserMeal userMeal);
 
-    UserMeal update(Integer userId, UserMeal userMeal) throws NotFoundException;
+    UserMeal update(int userId, UserMeal userMeal) throws NotFoundException;
 
-    void delete(Integer userId, int id) throws NotFoundException;
+    void delete(int userId, int id) throws NotFoundException;
 
-    UserMeal get(Integer userId, int id) throws NotFoundException;
+    UserMeal get(int userId, int id) throws NotFoundException;
 
-    Collection<UserMeal> getAll(Integer userId);
+    Collection<UserMeal> getAll(int userId);
 
-    Collection<UserMeal> getBetweenDateTimes(LocalDateTime startDateTime, LocalDateTime endDateTime,Integer userId);
+    Collection<UserMeal> getBetweenDateTimes(LocalDateTime startDateTime, LocalDateTime endDateTime,int userId);
 
-    default Collection<UserMeal> getBetweenDates(LocalDate startDate, LocalDate endDate, Integer userId){
+    default Collection<UserMeal> getBetweenDates(LocalDate startDate, LocalDate endDate, int userId){
         return getBetweenDateTimes(LocalDateTime.of(startDate, LocalTime.MIN), LocalDateTime.of(endDate, LocalTime.MAX), userId);
     }
 }

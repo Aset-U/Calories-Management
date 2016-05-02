@@ -1,7 +1,5 @@
 package ru.javawebinar.topjava.model;
 
-import ru.javawebinar.topjava.LoggerWrapper;
-
 /**
  * Created by Asset on 08.03.2016.
  */

@@ -9,9 +9,7 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.util.List;
 
-/**
- * Created by Asset on 09.03.2016.
- */
+
 @Service
 public class UserServiceImpl implements UserService{
 

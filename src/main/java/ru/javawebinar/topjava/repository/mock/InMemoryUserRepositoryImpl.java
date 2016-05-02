@@ -1,8 +1,6 @@
 package ru.javawebinar.topjava.repository.mock;
 
 import org.springframework.stereotype.Repository;
-import ru.javawebinar.topjava.LoggerWrapper;
-import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 import ru.javawebinar.topjava.util.UserMealsUtil;
@@ -10,12 +8,9 @@ import ru.javawebinar.topjava.util.UserMealsUtil;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.jar.Pack200;
 import java.util.stream.Collectors;
 
-/**
- * Created by Asset on 10.03.2016.
- */
+
 @Repository
 public class InMemoryUserRepositoryImpl implements UserRepository {
 
