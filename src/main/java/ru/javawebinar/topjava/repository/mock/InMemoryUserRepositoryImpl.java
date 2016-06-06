@@ -1,10 +1,14 @@
 package ru.javawebinar.topjava.repository.mock;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 import ru.javawebinar.topjava.util.UserMealsUtil;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -13,13 +17,15 @@ import java.util.stream.Collectors;
 
 @Repository
 public class InMemoryUserRepositoryImpl implements UserRepository {
+    private static final Logger LOG = LoggerFactory.getLogger(InMemoryUserRepositoryImpl.class);
 
     private Map<Integer, User> repository = new ConcurrentHashMap<>();
     private AtomicInteger counter = new AtomicInteger(0);
 
-    {
-        UserMealsUtil.USER_LIST.forEach(this::save);
-    }
+    public static final Comparator<User> USER_COMPARATOR = Comparator.comparing(User::getName);
+
+    public static final int USER_ID = 1;
+    public static final int ADMIN_ID = 2;
 
     @Override
     public User save(User user) {
@@ -28,9 +34,19 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
             user.setId(counter.incrementAndGet());
         }
 
-        return repository.put(user.getId(), user);
+        repository.put(user.getId(), user);
+        return user;
     }
 
+    @PostConstruct
+    public void postConstruct() {
+        LOG.info("+++ PostConstruct");
+    }
+
+    @PreDestroy
+    public void preDestroy() {
+        LOG.info("+++ PreDestroy");
+    }
     @Override
     public boolean delete(int id) {
         return repository.remove(id) != null;
@@ -50,7 +66,6 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
 
     @Override
     public List<User> getAll() {
-        return repository.values().stream().sorted((u1, u2) -> u1.getName().compareTo(u2.getName()))
-                .collect(Collectors.toList());
+        return repository.values().stream().sorted(USER_COMPARATOR).collect(Collectors.toList());
     }
 }

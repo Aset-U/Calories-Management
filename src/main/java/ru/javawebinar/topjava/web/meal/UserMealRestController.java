@@ -1,5 +1,7 @@
 package ru.javawebinar.topjava.web.meal;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import ru.javawebinar.topjava.LoggedUser;
@@ -18,7 +20,7 @@ import java.util.List;
  */
 @Controller
 public class UserMealRestController {
-    private static final LoggerWrapper LOG = LoggerWrapper.get(UserMealRestController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(UserMealRestController.class);
 
     @Autowired
     private UserMealServiceImpl service;

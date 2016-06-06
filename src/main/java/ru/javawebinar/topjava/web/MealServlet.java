@@ -1,5 +1,7 @@
 package ru.javawebinar.topjava.web;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.javawebinar.topjava.model.UserMeal;
@@ -19,7 +21,7 @@ import java.util.Objects;
 
 
 public class MealServlet extends HttpServlet {
-    private static final LoggerWrapper LOG = LoggerWrapper.get(MealServlet.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MealServlet.class);
 
     private ConfigurableApplicationContext springContex;
     private UserMealRestController mealRestController;

@@ -27,12 +27,6 @@ public class UserMealsUtil {
         new UserMeal(LocalDateTime.of(2015, Month.MAY, 31,20,0), "Ужин", 510)
     );
 
-    public static final List<User> USER_LIST = Arrays.asList(
-            new User(1, "Batman", "batman@enterprise.com", "123Hyee", Role.ROLE_ADMIN),
-            new User(2, "Badboy", "badboy@enterprise.com", "xxxA09f", Role.ROLE_USER),
-            new User(3, "Spiderman", "spiderman@enterprise.com", "really01", Role.ROLE_USER)
-    );
-
     public static final int DEFAULT_CALORIES_PER_DAY = 2000;
 
     public static void main(String[] args) {

@@ -22,19 +22,19 @@ import java.util.List;
  */
 public class SpringMain {
     public static void main(String[] args) {
-        try (ConfigurableApplicationContext appCtx = new AnnotationConfigApplicationContext(AppConfig.class)) {
+        // java 7 Automatic resource management
+        // try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml")) {
+        try (AnnotationConfigApplicationContext appCtx = new AnnotationConfigApplicationContext(AppConfig.class)) {
             System.out.println(Arrays.toString(appCtx.getBeanDefinitionNames()));
-            AdminRestController adminUserComtroller = appCtx.getBean(AdminRestController.class);
-            System.out.println(adminUserComtroller.create(new User(1, "Batman", "batman@enterprise.com", "123Hyee", Role.ROLE_ADMIN)));
+            AdminRestController adminUserController = appCtx.getBean(AdminRestController.class);
+            System.out.println(adminUserController.create(new User(1, "userName", "email", "password", Role.ROLE_ADMIN)));
             System.out.println();
 
-            UserMealRestController mealRestController = appCtx.getBean(UserMealRestController.class);
-
+            UserMealRestController mealController = appCtx.getBean(UserMealRestController.class);
             List<UserMealWithExceed> filteredMealsWithExceeded =
-                    mealRestController.getBetween(
+                    mealController.getBetween(
                             LocalDate.of(2015, Month.MAY, 30), LocalDate.of(2015, Month.MAY, 31),
                             LocalTime.of(7, 0), LocalTime.of(11, 0));
-
             filteredMealsWithExceeded.forEach(System.out::println);
         }
     }
