@@ -1,12 +1,10 @@
-package ru.javawebinar.topjava.config;
-
+package config;
+import  ru.javawebinar.topjava.repository.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import ru.javawebinar.topjava.repository.UserMealRepository;
 import ru.javawebinar.topjava.repository.UserRepository;
-import ru.javawebinar.topjava.repository.mock.InMemoryUserMealRepositoryImpl;
-import ru.javawebinar.topjava.repository.mock.InMemoryUserRepositoryImpl;
 import ru.javawebinar.topjava.service.UserMealService;
 import ru.javawebinar.topjava.service.UserMealServiceImpl;
 import ru.javawebinar.topjava.service.UserService;
@@ -23,12 +21,12 @@ public class AppConfig {
 
     @Bean
     public UserRepository userRepository() {
-        return new InMemoryUserRepositoryImpl();
+        return null;
     }
 
     @Bean
     public UserMealRepository userMealRepository(){
-        return new InMemoryUserMealRepositoryImpl();
+        return null;
     }
 
     @Bean
