@@ -1,11 +1,12 @@
 package ru.javawebinar.topjava;
 
+import ru.javawebinar.topjava.model.BaseEntity;
 import ru.javawebinar.topjava.util.UserMealsUtil;
 
 
 public class LoggedUser {
 
-    public static int id = 1;
+    public static int id = BaseEntity.START_SEQ;
 
     public static int id(){
         return id;
