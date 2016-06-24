@@ -11,6 +11,7 @@ import java.util.Collection;
 
 
 public interface UserMealService {
+   //первым аргументом идет id юзера, а потом еда
 
     UserMeal save(int userId, UserMeal userMeal);
 

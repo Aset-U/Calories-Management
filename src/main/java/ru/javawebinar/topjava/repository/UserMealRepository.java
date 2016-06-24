@@ -4,6 +4,7 @@ import ru.javawebinar.topjava.model.UserMeal;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+//первым аргументом идет id юзера, а потом еда
 
 public interface UserMealRepository {
     //Вернет null если при обнавлении meal не связан с userId
