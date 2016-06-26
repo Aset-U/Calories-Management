@@ -13,6 +13,9 @@ public class TimeUtil {
     public static final LocalDate MIN_DATE = LocalDate.of(0, 1, 1);
     public static final LocalDate MAX_DATE = LocalDate.of(3000, 1, 1);
 
+    private TimeUtil() {
+    }
+
     public static <T extends Comparable<? super T>> boolean isBetween(T value, T start, T end) {
         return value.compareTo(start) >= 0 && value.compareTo(end) <= 0;
     }

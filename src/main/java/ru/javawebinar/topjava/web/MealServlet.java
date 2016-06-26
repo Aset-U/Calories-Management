@@ -76,13 +76,13 @@ public class MealServlet extends HttpServlet {
             LOG.info("getAll");
             req.setAttribute("mealList", mealRestController.getAll());
             req.getRequestDispatcher("mealList.jsp").forward(req, resp);
-        } else if (action.equals("delete")){
+        } else if ("delete".equals(action)){
             int id = getId(req);
             LOG.info("Delete {}", id);
             mealRestController.delete(id);
             resp.sendRedirect("meals");
         } else {
-            final UserMeal meal = action.equals("create") ?
+            final UserMeal meal = "create".equals(action) ?
                     new UserMeal(LocalDateTime.now(), "", 1000):        // create
                     mealRestController.get(getId(req));                 // update
             req.setAttribute("meal", meal);
@@ -97,7 +97,7 @@ public class MealServlet extends HttpServlet {
     }
 
     private int getId(HttpServletRequest request){
-        String paramId = Objects.requireNonNull(request.getParameter("id"));
+        String paramId = Objects.requireNonNull(request.getParameter("id"), "parameter id  must not be null");
         return Integer.valueOf(paramId);
     }
 }

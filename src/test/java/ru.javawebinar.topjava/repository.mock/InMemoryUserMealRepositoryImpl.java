@@ -2,6 +2,7 @@ package ru.javawebinar.topjava.repository.mock;
 
 import javafx.print.Collation;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.Assert;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.repository.UserMealRepository;
@@ -35,7 +36,7 @@ public class InMemoryUserMealRepositoryImpl implements UserMealRepository {
 
     @Override
     public UserMeal save(int userId, UserMeal userMeal) {
-        Objects.requireNonNull(userMeal);
+        Assert.notNull(userMeal, "userMeal must not be null");
 
         Integer mealId = userMeal.getId();
 
@@ -72,11 +73,12 @@ public class InMemoryUserMealRepositoryImpl implements UserMealRepository {
     }
 
     @Override
-    public Collection<UserMeal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
-        Objects.requireNonNull(startDate);
-        Objects.requireNonNull(endDate);
+    public Collection<UserMeal> getBetween(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
+        Assert.notNull(startDateTime, "startDateTime must not be null");
+        Assert.notNull(endDateTime, "endDateTime must not be null");
+        Objects.requireNonNull(endDateTime);
         return getAll(userId).stream()
-                .filter(meal -> TimeUtil.isBetween(meal.getDateTime(), startDate, endDate))
+                .filter(meal -> TimeUtil.isBetween(meal.getDateTime(), startDateTime, endDateTime))
                 .collect(Collectors.toList());
     }
 }
