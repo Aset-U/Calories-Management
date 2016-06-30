@@ -1,10 +1,15 @@
 package ru.javawebinar.topjava.model;
 
-/**
- * Created by Asset on 08.03.2016.
- */
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
+
+@MappedSuperclass
 public class NamedEntity extends BaseEntity {
 
+    @NotEmpty
+    @Column(name = "name", nullable = false)
     protected String name;
 
     public NamedEntity() {
